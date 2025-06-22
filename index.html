@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shooting Star Form</title>
+    <title>PiQ AI Program Application Form</title>
     <style>
-        body {
+        body { 
             margin: 0;
             padding: 0;
             background: #000;
@@ -226,6 +226,11 @@
             '#FFEAA7', '#DDA0DD', '#98D8E8', '#F7DC6F'
         ];
 
+        // Speed parameters
+        const SHOOTING_STAR_SPEED = 0.8; // Much slower
+        const PROMINENT_STAR_SPEED = 0.6; // Slower for prominent star
+        const ORB_SPEED = 0.4; // Slower for orbs
+
         const stars = [];
         const orbs = [];
         let specialStar = null;
@@ -237,17 +242,17 @@
             constructor(isSpecial = false) {
                 this.x = -50;
                 this.y = Math.random() * canvas.height;
-                this.speed = 2 + Math.random() * 3;
+                this.speed = SHOOTING_STAR_SPEED + Math.random() * 0.4;
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 this.opacity = 0;
                 this.life = 0;
-                this.maxLife = 200 + Math.random() * 100;
+                this.maxLife = 400 + Math.random() * 200; // Longer life for slower speed
                 this.trailLength = isSpecial ? 120 : 60;
                 this.size = isSpecial ? 3 : 1.5;
                 this.isSpecial = isSpecial;
                 this.baseY = this.y;
                 this.amplitude = isSpecial ? 40 : 0;
-                this.frequency = 0.01;
+                this.frequency = 0.005; // Slower wave frequency
             }
 
             update() {
@@ -259,15 +264,16 @@
                 }
 
                 // Fade in and out
-                if (this.life < 20) {
-                    this.opacity = this.life / 20;
-                } else if (this.life > this.maxLife - 30) {
-                    this.opacity = (this.maxLife - this.life) / 30;
+                if (this.life < 40) {
+                    this.opacity = this.life / 40;
+                } else if (this.life > this.maxLife - 60) {
+                    this.opacity = (this.maxLife - this.life) / 60;
                 } else {
                     this.opacity = 1;
                 }
 
-                return this.x < canvas.width + 100 && this.life < this.maxLife;
+                // End earlier, before reaching the edge
+                return this.x < canvas.width - 50 && this.life < this.maxLife;
             }
 
             draw() {
@@ -313,13 +319,13 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = canvas.height + 20;
-                this.speed = 0.5 + Math.random() * 1;
+                this.speed = ORB_SPEED + Math.random() * 0.3;
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 this.opacity = 0;
                 this.life = 0;
-                this.maxLife = 400 + Math.random() * 200;
+                this.maxLife = 600 + Math.random() * 300; // Longer life for slower speed
                 this.size = 2 + Math.random() * 3;
-                this.drift = (Math.random() - 0.5) * 0.5;
+                this.drift = (Math.random() - 0.5) * 0.3;
                 this.pulse = Math.random() * Math.PI * 2;
             }
 
@@ -327,13 +333,13 @@
                 this.life++;
                 this.y -= this.speed;
                 this.x += this.drift;
-                this.pulse += 0.02;
+                this.pulse += 0.015;
 
                 // Fade in and out
-                if (this.life < 30) {
-                    this.opacity = this.life / 30 * 0.6;
-                } else if (this.life > this.maxLife - 50) {
-                    this.opacity = (this.maxLife - this.life) / 50 * 0.6;
+                if (this.life < 50) {
+                    this.opacity = this.life / 50 * 0.6;
+                } else if (this.life > this.maxLife - 80) {
+                    this.opacity = (this.maxLife - this.life) / 80 * 0.6;
                 } else {
                     this.opacity = 0.6 + Math.sin(this.pulse) * 0.2;
                 }
@@ -364,11 +370,11 @@
                 this.y = canvas.height + 50;
                 this.targetX = canvas.width + 100;
                 this.targetY = -50;
-                this.speed = 1.2;
+                this.speed = PROMINENT_STAR_SPEED;
                 this.color = '#FFD700';
                 this.opacity = 0;
                 this.life = 0;
-                this.maxLife = 600;
+                this.maxLife = 1000; // Longer life for slower movement
                 this.size = 5;
                 this.trailLength = 200;
                 this.progress = 0;
@@ -378,15 +384,15 @@
                 this.life++;
                 this.progress = this.life / this.maxLife;
                 
-                // Diagonal movement
-                this.x = this.x + (this.targetX - this.x) * 0.008;
-                this.y = this.y + (this.targetY - this.y) * 0.008;
+                // Diagonal movement (slower)
+                this.x = this.x + (this.targetX - this.x) * 0.004;
+                this.y = this.y + (this.targetY - this.y) * 0.004;
 
                 // Fade in and out
-                if (this.life < 50) {
-                    this.opacity = this.life / 50;
-                } else if (this.life > this.maxLife - 100) {
-                    this.opacity = (this.maxLife - this.life) / 100;
+                if (this.life < 80) {
+                    this.opacity = this.life / 80;
+                } else if (this.life > this.maxLife - 150) {
+                    this.opacity = (this.maxLife - this.life) / 150;
                 } else {
                     this.opacity = 1;
                 }
