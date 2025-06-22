@@ -45,13 +45,91 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 680px;
             width: 100%;
+            max-width: 70vw;
+            margin: 40px auto;
         }
 
         .form-container iframe {
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.95);
+            width: 100%;
+            height: 60vh;
+            min-height: 480px;
+            max-height: 700px;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .form-container {
+                max-width: 85vw;
+                padding: 15px;
+                margin: 30px auto;
+                border-radius: 12px;
+            }
+            
+            .form-container iframe {
+                height: 65vh;
+                min-height: 500px;
+                border-radius: 8px;
+            }
+        }
+
+        /* Tablet optimizations */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .form-container {
+                max-width: 75vw;
+                padding: 20px;
+                margin: 35px auto;
+            }
+            
+            .form-container iframe {
+                height: 62vh;
+                min-height: 520px;
+            }
+        }
+
+        /* Desktop optimizations */
+        @media (min-width: 1025px) {
+            .container {
+                padding: 40px 30px;
+            }
+            
+            .form-container {
+                max-width: 65vw;
+                padding: 25px;
+                margin: 40px auto;
+            }
+            
+            .form-container iframe {
+                height: 58vh;
+                min-height: 550px;
+            }
+        }
+
+        /* Large desktop optimizations */
+        @media (min-width: 1440px) {
+            .container {
+                padding: 50px 40px;
+            }
+            
+            .form-container {
+                max-width: 900px;
+                padding: 30px;
+                margin: 50px auto;
+            }
+            
+            .form-container iframe {
+                height: 650px;
+            }
         }
 
         .shooting-star {
@@ -123,8 +201,6 @@
         
         <div class="form-container">
             <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSco0NPLZosOOb8dnWO-HPNkmyqWj8MpskltKtIQqlXgCpUqvg/viewform?embedded=true" 
-                    width="640" 
-                    height="382" 
                     frameborder="0" 
                     marginheight="0" 
                     marginwidth="0">
@@ -364,7 +440,7 @@
         }
 
         function createShootingStar() {
-            if (Math.random() < 0.15) {
+            if (Math.random() < 0.075) {
                 stars.push(new ShootingStar());
             }
         }
