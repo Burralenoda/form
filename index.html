@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PiQ AI Program Application Form</title>
+    <title>PiQ AI Program Application</title>
     <style>
-        body { 
+        body {
             margin: 0;
             padding: 0;
             background: #000;
@@ -272,8 +272,8 @@
                     this.opacity = 1;
                 }
 
-                // End earlier, before reaching the edge
-                return this.x < canvas.width + 75 && this.life < this.maxLife;
+                // End at the right edge of screen
+                return this.x < canvas.width + 50 && this.life < this.maxLife;
             }
 
             draw() {
