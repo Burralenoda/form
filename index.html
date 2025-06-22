@@ -3,18 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Form</title>
+    <title>Shooting Star Form</title>
     <style>
-        * {
+        body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
             background: #000;
+            font-family: Arial, sans-serif;
             overflow-x: hidden;
-            font-family: 'Arial', sans-serif;
             min-height: 100vh;
         }
 
@@ -23,12 +19,14 @@
             width: 100%;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             padding: 20px;
+            box-sizing: border-box;
         }
 
-        .animated-bg {
+        .animation-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -38,14 +36,31 @@
             pointer-events: none;
         }
 
+        .form-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(10, 10, 15, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 680px;
+            width: 100%;
+        }
+
+        .form-container iframe {
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
         .shooting-star {
             position: absolute;
             width: 2px;
             height: 2px;
-            background: white;
+            background: #fff;
             border-radius: 50%;
             opacity: 0;
-            animation: shoot linear infinite;
         }
 
         .shooting-star::before {
@@ -53,176 +68,73 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 100px;
+            width: 0;
             height: 1px;
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
-            transform: translateX(100%);
+            background: linear-gradient(90deg, transparent, currentColor);
+            transform-origin: right;
         }
 
-        .star-1 { 
-            top: 20%; 
-            animation-duration: 3s; 
-            animation-delay: 0s;
-            background: #ff6b9d;
-        }
-        .star-1::before { background: linear-gradient(90deg, rgba(255,107,157,0) 0%, rgba(255,107,157,0.8) 50%, rgba(255,107,157,0) 100%); }
-
-        .star-2 { 
-            top: 40%; 
-            animation-duration: 4s; 
-            animation-delay: 1s;
-            background: #4ecdc4;
-        }
-        .star-2::before { background: linear-gradient(90deg, rgba(78,205,196,0) 0%, rgba(78,205,196,0.8) 50%, rgba(78,205,196,0) 100%); }
-
-        .star-3 { 
-            top: 60%; 
-            animation-duration: 2.5s; 
-            animation-delay: 2s;
-            background: #ffd93d;
-        }
-        .star-3::before { background: linear-gradient(90deg, rgba(255,217,61,0) 0%, rgba(255,217,61,0.8) 50%, rgba(255,217,61,0) 100%); }
-
-        .star-4 { 
-            top: 80%; 
-            animation-duration: 3.5s; 
-            animation-delay: 0.5s;
-            background: #a8e6cf;
-        }
-        .star-4::before { background: linear-gradient(90deg, rgba(168,230,207,0) 0%, rgba(168,230,207,0.8) 50%, rgba(168,230,207,0) 100%); }
-
-        .star-5 { 
-            top: 15%; 
-            animation-duration: 2.8s; 
-            animation-delay: 1.5s;
-            background: #c7a8ff;
-        }
-        .star-5::before { background: linear-gradient(90deg, rgba(199,168,255,0) 0%, rgba(199,168,255,0.8) 50%, rgba(199,168,255,0) 100%); }
-
-        @keyframes shoot {
-            0% {
-                left: -150px;
-                opacity: 0;
-            }
-            20% {
-                opacity: 1;
-            }
-            80% {
-                opacity: 1;
-            }
-            100% {
-                left: 100%;
-                opacity: 0;
-            }
-        }
-
-        .drawing-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .form-wrapper {
-            position: relative;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: fadeInUp 1s ease-out;
-            max-width: 700px;
-            width: 100%;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-            border-radius: 15px;
-        }
-
-        .floating-particles {
-            position: fixed;
+        .special-star {
+            position: absolute;
             width: 4px;
             height: 4px;
+            background: #fff;
             border-radius: 50%;
             opacity: 0;
-            z-index: 1;
-            animation: float 8s linear infinite;
+            box-shadow: 0 0 10px currentColor;
         }
 
-        .particle-1 { background: #ff6b9d; left: 10%; animation-delay: 0s; }
-        .particle-2 { background: #4ecdc4; left: 20%; animation-delay: 1s; }
-        .particle-3 { background: #ffd93d; left: 30%; animation-delay: 2s; }
-        .particle-4 { background: #a8e6cf; left: 70%; animation-delay: 3s; }
-        .particle-5 { background: #c7a8ff; left: 80%; animation-delay: 4s; }
-        .particle-6 { background: #ff8a65; left: 90%; animation-delay: 5s; }
+        .special-star::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            right: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, currentColor);
+            transform-origin: right;
+        }
 
-        @keyframes float {
-            0% {
-                bottom: -10px;
-                opacity: 0;
-                transform: translateX(0) rotate(0deg);
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                bottom: 100vh;
-                opacity: 0;
-                transform: translateX(100px) rotate(360deg);
-            }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-100px); }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; transform: translateX(calc(100vw + 100px)); }
+        }
+
+        @keyframes trailGrow {
+            0% { width: 0; }
+            20% { width: 60px; }
+            80% { width: 60px; }
+            100% { width: 0; }
+        }
+
+        @keyframes specialTrailGrow {
+            0% { width: 0; }
+            20% { width: 120px; }
+            80% { width: 120px; }
+            100% { width: 0; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="animated-bg">
-            <div class="shooting-star star-1"></div>
-            <div class="shooting-star star-2"></div>
-            <div class="shooting-star star-3"></div>
-            <div class="shooting-star star-4"></div>
-            <div class="shooting-star star-5"></div>
-            
-            <div class="floating-particles particle-1"></div>
-            <div class="floating-particles particle-2"></div>
-            <div class="floating-particles particle-3"></div>
-            <div class="floating-particles particle-4"></div>
-            <div class="floating-particles particle-5"></div>
-            <div class="floating-particles particle-6"></div>
-        </div>
-
-        <canvas class="drawing-canvas" id="drawingCanvas"></canvas>
-
-        <div class="form-wrapper">
+        <canvas class="animation-canvas" id="starCanvas"></canvas>
+        
+        <div class="form-container">
             <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSco0NPLZosOOb8dnWO-HPNkmyqWj8MpskltKtIQqlXgCpUqvg/viewform?embedded=true" 
-                    marginheight="0" marginwidth="0">Loading…</iframe>
+                    width="640" 
+                    height="382" 
+                    frameborder="0" 
+                    marginheight="0" 
+                    marginwidth="0">
+                Loading…
+            </iframe>
         </div>
     </div>
 
     <script>
-        // Drawing animation
-        const canvas = document.getElementById('drawingCanvas');
+        const canvas = document.getElementById('starCanvas');
         const ctx = canvas.getContext('2d');
         
         function resizeCanvas() {
@@ -232,122 +144,301 @@
         
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
-        
-        const colors = ['#ff6b9d', '#4ecdc4', '#ffd93d', '#a8e6cf', '#c7a8ff', '#ff8a65'];
-        let drawings = [];
-        
-        class Drawing {
-            constructor() {
-                this.x = Math.random() * canvas.width;
+
+        const colors = [
+            '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', 
+            '#FFEAA7', '#DDA0DD', '#98D8E8', '#F7DC6F'
+        ];
+
+        const stars = [];
+        const orbs = [];
+        let specialStar = null;
+        let prominentStar = null;
+        let time = 0;
+        let lastProminentStar = 0;
+
+        class ShootingStar {
+            constructor(isSpecial = false) {
+                this.x = -50;
                 this.y = Math.random() * canvas.height;
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.points = [];
-                this.maxPoints = 20 + Math.random() * 30;
-                this.currentPoint = 0;
-                this.opacity = 1;
-                this.fadeStart = false;
-                this.thickness = 3 + Math.random() * 4;
-                this.angle = Math.random() * Math.PI * 2;
                 this.speed = 2 + Math.random() * 3;
-                
-                // Generate smooth curve points
-                for (let i = 0; i < this.maxPoints; i++) {
-                    const t = i / this.maxPoints;
-                    const curve = Math.sin(t * Math.PI * 2) * 50;
-                    this.points.push({
-                        x: this.x + Math.cos(this.angle + t * 2) * (100 + curve),
-                        y: this.y + Math.sin(this.angle + t * 2) * (100 + curve)
-                    });
-                }
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = 0;
+                this.life = 0;
+                this.maxLife = 200 + Math.random() * 100;
+                this.trailLength = isSpecial ? 120 : 60;
+                this.size = isSpecial ? 3 : 1.5;
+                this.isSpecial = isSpecial;
+                this.baseY = this.y;
+                this.amplitude = isSpecial ? 40 : 0;
+                this.frequency = 0.01;
             }
-            
+
             update() {
-                if (this.currentPoint < this.maxPoints - 1) {
-                    this.currentPoint += 0.3;
-                } else if (!this.fadeStart) {
-                    this.fadeStart = true;
-                    setTimeout(() => {
-                        this.opacity = 0;
-                    }, 1000);
-                }
+                this.life++;
+                this.x += this.speed;
                 
-                if (this.fadeStart && this.opacity > 0) {
-                    this.opacity -= 0.02;
+                if (this.isSpecial) {
+                    this.y = this.baseY + Math.sin(this.x * this.frequency) * this.amplitude;
                 }
+
+                // Fade in and out
+                if (this.life < 20) {
+                    this.opacity = this.life / 20;
+                } else if (this.life > this.maxLife - 30) {
+                    this.opacity = (this.maxLife - this.life) / 30;
+                } else {
+                    this.opacity = 1;
+                }
+
+                return this.x < canvas.width + 100 && this.life < this.maxLife;
             }
-            
+
             draw() {
-                if (this.opacity <= 0) return;
+                ctx.save();
                 
+                // Draw trail
+                const gradient = ctx.createLinearGradient(
+                    this.x - this.trailLength, this.y,
+                    this.x, this.y
+                );
+                gradient.addColorStop(0, 'transparent');
+                gradient.addColorStop(0.7, this.color + '80');
+                gradient.addColorStop(1, this.color);
+
+                ctx.fillStyle = gradient;
+                ctx.fillRect(
+                    this.x - this.trailLength, 
+                    this.y - this.size/2, 
+                    this.trailLength, 
+                    this.size
+                );
+
+                // Draw star
+                ctx.fillStyle = this.color;
                 ctx.globalAlpha = this.opacity;
-                ctx.strokeStyle = this.color;
-                ctx.lineWidth = this.thickness;
-                ctx.lineCap = 'round';
-                ctx.lineJoin = 'round';
-                
                 ctx.beginPath();
-                for (let i = 0; i < Math.floor(this.currentPoint); i++) {
-                    const point = this.points[i];
-                    if (i === 0) {
-                        ctx.moveTo(point.x, point.y);
-                    } else {
-                        ctx.lineTo(point.x, point.y);
-                    }
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (this.isSpecial) {
+                    ctx.shadowColor = this.color;
+                    ctx.shadowBlur = 15;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
                 }
-                ctx.stroke();
-                
-                // Add glow effect
-                ctx.shadowColor = this.color;
-                ctx.shadowBlur = 10;
-                ctx.stroke();
-                ctx.shadowBlur = 0;
+
+                ctx.restore();
             }
         }
-        
+
+        class FloatingOrb {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 20;
+                this.speed = 0.5 + Math.random() * 1;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = 0;
+                this.life = 0;
+                this.maxLife = 400 + Math.random() * 200;
+                this.size = 2 + Math.random() * 3;
+                this.drift = (Math.random() - 0.5) * 0.5;
+                this.pulse = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.life++;
+                this.y -= this.speed;
+                this.x += this.drift;
+                this.pulse += 0.02;
+
+                // Fade in and out
+                if (this.life < 30) {
+                    this.opacity = this.life / 30 * 0.6;
+                } else if (this.life > this.maxLife - 50) {
+                    this.opacity = (this.maxLife - this.life) / 50 * 0.6;
+                } else {
+                    this.opacity = 0.6 + Math.sin(this.pulse) * 0.2;
+                }
+
+                return this.y > -20 && this.life < this.maxLife;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                
+                // Glow effect
+                ctx.shadowColor = this.color;
+                ctx.shadowBlur = 10;
+                
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.restore();
+            }
+        }
+
+        class ProminentStar {
+            constructor() {
+                this.x = -100;
+                this.y = canvas.height + 50;
+                this.targetX = canvas.width + 100;
+                this.targetY = -50;
+                this.speed = 1.2;
+                this.color = '#FFD700';
+                this.opacity = 0;
+                this.life = 0;
+                this.maxLife = 600;
+                this.size = 5;
+                this.trailLength = 200;
+                this.progress = 0;
+            }
+
+            update() {
+                this.life++;
+                this.progress = this.life / this.maxLife;
+                
+                // Diagonal movement
+                this.x = this.x + (this.targetX - this.x) * 0.008;
+                this.y = this.y + (this.targetY - this.y) * 0.008;
+
+                // Fade in and out
+                if (this.life < 50) {
+                    this.opacity = this.life / 50;
+                } else if (this.life > this.maxLife - 100) {
+                    this.opacity = (this.maxLife - this.life) / 100;
+                } else {
+                    this.opacity = 1;
+                }
+
+                return this.life < this.maxLife;
+            }
+
+            draw() {
+                ctx.save();
+                
+                // Calculate trail direction
+                const angle = Math.atan2(this.targetY - this.y, this.targetX - this.x);
+                const trailEndX = this.x - Math.cos(angle) * this.trailLength;
+                const trailEndY = this.y - Math.sin(angle) * this.trailLength;
+                
+                // Draw trail
+                const gradient = ctx.createLinearGradient(
+                    trailEndX, trailEndY,
+                    this.x, this.y
+                );
+                gradient.addColorStop(0, 'transparent');
+                gradient.addColorStop(0.3, this.color + '40');
+                gradient.addColorStop(0.7, this.color + '80');
+                gradient.addColorStop(1, this.color);
+
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 8;
+                ctx.beginPath();
+                ctx.moveTo(trailEndX, trailEndY);
+                ctx.lineTo(this.x, this.y);
+                ctx.stroke();
+
+                // Draw bright star
+                ctx.globalAlpha = this.opacity;
+                ctx.shadowColor = this.color;
+                ctx.shadowBlur = 20;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Inner glow
+                ctx.shadowBlur = 5;
+                ctx.fillStyle = '#FFFFFF';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 0.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        function createShootingStar() {
+            if (Math.random() < 0.15) {
+                stars.push(new ShootingStar());
+            }
+        }
+
+        function createSpecialStar() {
+            if (!specialStar && Math.random() < 0.005) {
+                specialStar = new ShootingStar(true);
+            }
+        }
+
+        function createFloatingOrb() {
+            if (Math.random() < 0.02) {
+                orbs.push(new FloatingOrb());
+            }
+        }
+
+        function createProminentStar() {
+            // Create every 15 seconds (900 frames at 60fps)
+            if (!prominentStar && time - lastProminentStar > 900) {
+                prominentStar = new ProminentStar();
+                lastProminentStar = time;
+            }
+        }
+
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Update and draw all drawings
-            drawings = drawings.filter(drawing => {
-                drawing.update();
-                drawing.draw();
-                return drawing.opacity > 0;
-            });
+            time++;
             
+            createShootingStar();
+            createSpecialStar();
+            createFloatingOrb();
+            createProminentStar();
+
+            // Update and draw regular stars
+            for (let i = stars.length - 1; i >= 0; i--) {
+                if (!stars[i].update()) {
+                    stars.splice(i, 1);
+                } else {
+                    stars[i].draw();
+                }
+            }
+
+            // Update and draw floating orbs
+            for (let i = orbs.length - 1; i >= 0; i--) {
+                if (!orbs[i].update()) {
+                    orbs.splice(i, 1);
+                } else {
+                    orbs[i].draw();
+                }
+            }
+
+            // Update and draw special star
+            if (specialStar) {
+                if (!specialStar.update()) {
+                    specialStar = null;
+                } else {
+                    specialStar.draw();
+                }
+            }
+
+            // Update and draw prominent star
+            if (prominentStar) {
+                if (!prominentStar.update()) {
+                    prominentStar = null;
+                } else {
+                    prominentStar.draw();
+                }
+            }
+
             requestAnimationFrame(animate);
         }
-        
-        // Create new drawing every 3-6 seconds
-        function createDrawing() {
-            drawings.push(new Drawing());
-            setTimeout(createDrawing, 3000 + Math.random() * 3000);
-        }
-        
-        // Start animations
+
         animate();
-        createDrawing();
-        
-        // Add more shooting stars dynamically
-        function addShootingStar() {
-            const star = document.createElement('div');
-            star.className = 'shooting-star';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDuration = (2 + Math.random() * 3) + 's';
-            star.style.animationDelay = '0s';
-            
-            const colorIndex = Math.floor(Math.random() * colors.length);
-            star.style.background = colors[colorIndex];
-            star.style.setProperty('--trail-color', colors[colorIndex]);
-            
-            document.querySelector('.animated-bg').appendChild(star);
-            
-            setTimeout(() => {
-                star.remove();
-            }, 5000);
-        }
-        
-        // Add shooting stars every 2-4 seconds
-        setInterval(addShootingStar, 2000 + Math.random() * 2000);
     </script>
 </body>
 </html>
