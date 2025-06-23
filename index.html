@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PiQ AI Program Application</title>
+    <title>Shooting Star Form</title>
     <style>
         body {
             margin: 0;
@@ -263,17 +263,20 @@
                     this.y = this.baseY + Math.sin(this.x * this.frequency) * this.amplitude;
                 }
 
-                // Fade in and out
-                if (this.life < 40) {
-                    this.opacity = this.life / 40;
-                } else if (this.life > this.maxLife - 60) {
-                    this.opacity = (this.maxLife - this.life) / 60;
+                // Only fade based on position, not life
+                if (this.x < 50) {
+                    // Fade in when entering from left
+                    this.opacity = Math.min(1, this.x / 50);
+                } else if (this.x > canvas.width - 100) {
+                    // Fade out when approaching right edge
+                    this.opacity = Math.max(0, (canvas.width + 50 - this.x) / 150);
                 } else {
+                    // Full opacity in the middle
                     this.opacity = 1;
                 }
 
-                // End at the right edge of screen
-                return this.x < canvas.width + 50 && this.life < this.maxLife;
+                // Only remove when completely past right edge
+                return this.x < canvas.width + 200;
             }
 
             draw() {
